@@ -1,0 +1,21 @@
+{
+  "batch": "20260618_214211",
+  "label": "mine",
+  "results": [
+    {
+      "file": "20260618_214211_mine_1.mp3",
+      "duration": "41.737868",
+      "elapsed": 68.3
+    },
+    {
+      "file": "20260618_214211_mine_2.mp3",
+      "duration": "40.971610",
+      "elapsed": 36.0
+    },
+    {
+      "file": "20260618_214211_mine_3.mp3",
+      "duration": "70.844082",
+      "elapsed": 49.4
+    }
+  ]
+}

@@ -908,6 +908,88 @@ curl -X POST https://api.minimax.io/v1/music_cover_preprocess \
     </div>
   </div>
 
+  <!-- 第9章：名曲照合エンジン設計 -->
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-badge">第9章</span>名曲照合エンジン設計</div>
+
+    <div class="acc-item" data-key="match-bg">
+      <div class="acc-header" onclick="toggle(this)">
+        <span class="acc-icon">▶</span>
+        <div class="acc-title">🎯 なぜ「名曲との照合」か</div>
+        <div class="acc-summary">生成曲を定量分析し、名曲DBと比較して改善ヒントを還元する</div>
+      </div>
+      <div class="acc-body">
+        <p>make-song が生成した曲を<strong>定量分析</strong>（BPM・キー・コード進行・音域・フレーズ反復などを数値化）し、歴史的名曲の特徴量DBと照合する。得られた<strong>「どの名曲に似ているか」「名曲っぽさスコア」</strong>を make-song のプロンプトに還元し、生成品質を伸ばすループ。</p>
+        <div class="tip-note"><strong>💡 耳判断を数値判断で補強</strong>。「なんとなく良い」を「BPM/キー軸で○○に近い」と客観化し、改善ポイント（テンポ帯・類似曲のコード進行など）を特定できる。</div>
+      </div>
+    </div>
+
+    <div class="acc-item" data-key="match-decisions">
+      <div class="acc-header" onclick="toggle(this)">
+        <span class="acc-icon">▶</span>
+        <div class="acc-title">⚖️ 設計判断4論点</div>
+        <div class="acc-summary">入力・還元・スコア定義・ノイズ扱い</div>
+      </div>
+      <div class="acc-body">
+        <table class="compare-table">
+          <tr><th>論点</th><th>決定</th><th>理由</th></tr>
+          <tr><td><strong>入力</strong>（自作曲の特徴量）</td><td class="good">フル分析</td><td>名曲DBと完全同一スキーマで比較可能。中間データ利用より項目が漏れない</td></tr>
+          <tr><td><strong>還元</strong>（make-song連携）</td><td class="good">スコアリング + 類似名曲ヒント</td><td>生成候補の淘汰フィルタと、上位曲の改善ヒント提供を両立</td></tr>
+          <tr><td><strong>スコア定義</strong></td><td class="good">k-NN類似名曲 + 重心スコア</td><td>「似ている曲」は近傍探索、「名曲らしい領域にいるか」は重心への近さ。重心は高信頼度軸（BPM/キー）限定で安定化</td></tr>
+          <tr><td><strong>ノイズ扱い</strong></td><td class="good">前処理フィルタ + 固定重み</td><td>信頼度の低い特徴量を除外/クリップし、残りを固定重みで統合（後述）</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="acc-item" data-key="match-arch">
+      <div class="acc-header" onclick="toggle(this)">
+        <span class="acc-icon">▶</span>
+        <div class="acc-title">🧩 採用アーキテクチャ: ルールベース段階スコア</div>
+        <div class="acc-summary">異質な特徴量を1ベクトルに押し込めない・各軸で透明</div>
+      </div>
+      <div class="acc-body">
+        <p>各特徴量を独立に <strong>0〜1 の類似度スコア</strong>に変換し、固定重みで加重平均する。<strong>BPM（ガウシアン変換）/ キー（五度圏距離）/ コード進行（n-gram Jaccard）/ 音域（範囲重なり）</strong>など、軸ごとに最適な距離尺度を選べる。</p>
+        <h4>4層パイプライン</h4>
+        <table class="compare-table">
+          <tr><th>層</th><th>役割</th></tr>
+          <tr><td><strong>1. Preprocess</strong></td><td>ノイズ除去（音域クリップ・性別除外・フレーズ閾値再評価）</td></tr>
+          <tr><td><strong>2. Feature Scoring</strong></td><td>各軸の 0〜1 類似度を計算（純関数で独立テスト可能）</td></tr>
+          <tr><td><strong>3. Aggregate</strong></td><td>固定重みで加重平均 → k-NN類似名曲 + 重心スコア</td></tr>
+          <tr><td><strong>4. Report</strong></td><td>名曲っぽさスコア + 「どの軸で似ているか」+ 改善ヒント生成</td></tr>
+        </table>
+        <h4>なぜ他案でなくこの方式か</h4>
+        <table class="compare-table">
+          <tr><th>案</th><th>方式</th><th>採否</th></tr>
+          <tr><td>ルールベース段階スコア</td><td>各軸を独立スコア化→固定重み統合</td><td class="good">✅ 採用</td></tr>
+          <tr><td>ベクトル統合（sklearn）</td><td>全特徴量を1ベクトル化→cosine距離</td><td class="bad">❌ 重みがブラックボックス・ノイズ除外困難</td></tr>
+          <tr><td>純Python 1ベクトル</td><td>正規化して1ベクトルに詰め込み距離計算</td><td class="bad">❌ コード進行(カテゴリ)の数値化が不自然</td></tr>
+        </table>
+        <div class="tip-note"><strong>💡 重みは設定ファイル（YAML）に外出し</strong>。コードを変えずにチューニングでき、「どの軸を重く見るか」を運用で調整する。</div>
+      </div>
+    </div>
+
+    <div class="acc-item" data-key="match-noise">
+      <div class="acc-header" onclick="toggle(this)">
+        <span class="acc-icon">▶</span>
+        <div class="acc-title">🔇 ノイズ特徴量の扱い（核心）</div>
+        <div class="acc-summary">実測で発見した3つのノイズと対処</div>
+      </div>
+      <div class="acc-body">
+        <p>定量分析は完璧ではない。実曲（米津玄師「Lemon」）の分析で、<strong>高信頼度な軸と信頼できない軸</strong>が明確に分かれた。</p>
+        <table class="compare-table">
+          <tr><th>特徴量</th><th>実測</th><th>問題</th><th>対処</th></tr>
+          <tr><td class="good">BPM</td><td>86.1（実際87）</td><td>—（高精度）</td><td class="good">高信頼度軸・重め</td></tr>
+          <tr><td class="good">キー</td><td>B major</td><td>—（妥当）</td><td class="good">高信頼度軸・重め</td></tr>
+          <tr><td class="bad">性別推定</td><td>女性（実際は男性）</td><td>ファルセットで誤判定</td><td class="good">照合から除外（信頼度ゼロ）</td></tr>
+          <tr><td class="bad">音域 low</td><td>B-0（31Hz）</td><td>人間音域外・低域ノイズpickup</td><td class="good">A1〜C7の物理範囲でクリップ</td></tr>
+          <tr><td class="bad">フレーズ反復</td><td>未検出</td><td>サビ反復曲なのに閾値超えず</td><td class="good">閾値を見直し</td></tr>
+        </table>
+        <div class="tip-note"><strong>💡 教訓: 特徴量は均質ではない</strong>。信頼度の高い軸（BPM/キー）を主軸に据え、ノイズを含む軸はフィルタまたは低減して使う。「全部まとめて1つの距離」にすると、ノイズが良質な軸を汚染する。</div>
+      </div>
+    </div>
+
+  </div>
+
   <div class="footer">
     <p>📚 関連ガイド :
       <a href="https://fukukei23.github.io/sangoku-hiphop-guide/">三国志HIPHOP制作教科書</a> ·

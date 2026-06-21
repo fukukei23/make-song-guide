@@ -1,0 +1,16 @@
+{
+  "batch": "20260619_060223",
+  "label": "v2-8genres",
+  "results": [
+    {
+      "file": "20260619_060223_v2-8genres_1.mp3",
+      "duration": "39.857052",
+      "elapsed": 27.8
+    },
+    {
+      "file": "20260619_060223_v2-8genres_2.mp3",
+      "duration": "51.501859",
+      "elapsed": 42.2
+    }
+  ]
+}

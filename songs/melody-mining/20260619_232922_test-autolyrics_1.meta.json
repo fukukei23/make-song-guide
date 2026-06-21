@@ -1,0 +1,12 @@
+{
+  "file": "20260619_232922_test-autolyrics_1.mp3",
+  "prompt": "modern dance pop, catchy synth hook, punchy drums, bright production, clear female vocal, upbeat, radio-friendly, 2020s mainstream pop, polished, vocal grit",
+  "lyrics": "",
+  "duration_sec": "179.641179",
+  "elapsed_sec": 106.0,
+  "model": "music-2.6",
+  "generated_at": "20260619_232922",
+  "bpm": null,
+  "key": null,
+  "auto_lyrics": true
+}

@@ -1,0 +1,21 @@
+{
+  "batch": "20260619_105337",
+  "label": "morning-light",
+  "results": [
+    {
+      "file": "20260619_105337_morning-light_1.mp3",
+      "duration": "52.337778",
+      "elapsed": 41.8
+    },
+    {
+      "file": "20260619_105337_morning-light_2.mp3",
+      "duration": "57.829297",
+      "elapsed": 40.2
+    },
+    {
+      "file": "20260619_105337_morning-light_3.mp3",
+      "duration": "48.018866",
+      "elapsed": 40.5
+    }
+  ]
+}

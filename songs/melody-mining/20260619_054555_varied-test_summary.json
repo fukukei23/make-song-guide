@@ -1,0 +1,16 @@
+{
+  "batch": "20260619_054555",
+  "label": "varied-test",
+  "results": [
+    {
+      "file": "20260619_054555_varied-test_1.mp3",
+      "duration": "67.604898",
+      "elapsed": 64.3
+    },
+    {
+      "file": "20260619_054555_varied-test_2.mp3",
+      "duration": "52.059138",
+      "elapsed": 34.3
+    }
+  ]
+}

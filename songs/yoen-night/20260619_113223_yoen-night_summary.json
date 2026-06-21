@@ -1,0 +1,21 @@
+{
+  "batch": "20260619_113223",
+  "label": "yoen-night",
+  "results": [
+    {
+      "file": "20260619_113223_yoen-night_1.mp3",
+      "duration": "40.216961",
+      "elapsed": 28.3
+    },
+    {
+      "file": "20260619_113223_yoen-night_2.mp3",
+      "duration": "59.953923",
+      "elapsed": 65.2
+    },
+    {
+      "file": "20260619_113223_yoen-night_3.mp3",
+      "duration": "39.891882",
+      "elapsed": 63.7
+    }
+  ]
+}

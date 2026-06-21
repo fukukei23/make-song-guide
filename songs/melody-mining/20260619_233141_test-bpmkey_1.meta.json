@@ -1,0 +1,12 @@
+{
+  "file": "20260619_233141_test-bpmkey_1.mp3",
+  "prompt": "E minor, 90 BPM, acoustic guitar ballad",
+  "lyrics": "[Verse 1]\nららら　らーら　ららら　らー\nららら　らーら　ららら　らー\n\n[Verse 3]\nらーら　ららら　らーら　らら\nらーら　ららら　らーら　らら\n\n[Chorus]\nららら　らーら　ららら　らー\nららら　らーら　ららら　らー",
+  "duration_sec": "65.875011",
+  "elapsed_sec": 46.4,
+  "model": "music-2.6",
+  "generated_at": "20260619_233141",
+  "bpm": 90,
+  "key": "E minor",
+  "auto_lyrics": false
+}

@@ -1,0 +1,21 @@
+{
+  "batch": "20260619_115021",
+  "label": "yoen-v2",
+  "results": [
+    {
+      "file": "20260619_115021_yoen-v2_1.mp3",
+      "duration": "158.545850",
+      "elapsed": 78.2
+    },
+    {
+      "file": "20260619_115021_yoen-v2_2.mp3",
+      "duration": "148.456780",
+      "elapsed": 78.5
+    },
+    {
+      "file": "20260619_115021_yoen-v2_3.mp3",
+      "duration": "108.553288",
+      "elapsed": 64.3
+    }
+  ]
+}

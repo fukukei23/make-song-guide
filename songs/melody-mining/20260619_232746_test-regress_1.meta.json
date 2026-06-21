@@ -1,0 +1,12 @@
+{
+  "file": "20260619_232746_test-regress_1.mp3",
+  "prompt": "afrobeats, silky guitar, groovy percussion, warm bass, smooth male vocal, infectious rhythm, danceable, West African pop, global crossover",
+  "lyrics": "[Verse 1]\nららら　らーら　ららら　らー\nららら　らーら　ららら　らー\n\n[Verse 3]\nらーら　ららら　らーら　らら\nらーら　ららら　らーら　らら\n\n[Chorus]\nららら　らーら　ららら　らー\nららら　らーら　ららら　らー",
+  "duration_sec": "75.488073",
+  "elapsed_sec": 47.4,
+  "model": "music-2.6",
+  "generated_at": "20260619_232746",
+  "bpm": null,
+  "key": null,
+  "auto_lyrics": false
+}

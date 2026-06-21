@@ -1,0 +1,16 @@
+{
+  "batch": "20260619_063639",
+  "label": "hourly",
+  "results": [
+    {
+      "file": "20260619_063639_hourly_1.mp3",
+      "duration": "42.814694",
+      "elapsed": 31.6
+    },
+    {
+      "file": "20260619_063639_hourly_2.mp3",
+      "duration": "40.045714",
+      "elapsed": 35.2
+    }
+  ]
+}
